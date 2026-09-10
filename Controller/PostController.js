@@ -51,6 +51,23 @@ export const updatePost = async (req, res) => {
     })
 }
 
+//bulk delete
+export const bulkDelete = async (req, res) => {
+    const { ids } = req.body
+    const deletedPosts = await prisma.post.deleteMany({
+        where: {
+            id: { in: ids }
+        },
+    })
+
+    return res.json({
+        status: 200,
+        data: deletedPosts,
+        msg: "bulk of posts deleted successfully"
+    })
+}
+
+
 //delete post
 export const deletePost = async (req, res) => {
     const postId = req.params.id
