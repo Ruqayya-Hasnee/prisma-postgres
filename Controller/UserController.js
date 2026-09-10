@@ -1,7 +1,7 @@
 import prisma from "../DB/db.config.js";
 
 export const createUser = async (req, res) => {
-    const { name, email, password } = req.body
+    const { name, email, password, phone } = req.body
 
     const findUser = await prisma.user.findUnique({
         where: {
@@ -21,7 +21,8 @@ export const createUser = async (req, res) => {
         data: {
             name: name,
             email: email,
-            password: password
+            password: password,
+            phone: phone,
         }
     })
 
