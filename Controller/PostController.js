@@ -127,3 +127,36 @@ export const filterAndSortPosts = async (req, res) => {
         msg: "filtered and sorted posts"
     })
 }
+
+//pagination
+export const paginatedPosts = async (req, res) => {
+    const page = Number(req.query.page) || 1
+    const limit = Number(req.query.limit) || 5
+
+    const skip = (page - 1) * limit
+
+    const posts = await prisma.post.findMany({
+        skip,
+        take: limit,
+        orderBy: {
+            id: "desc"
+        }
+    })
+
+    return res.json({
+        status: 200,
+        data: posts,
+        page,
+        limit
+    })
+}
+
+//get total count
+export const countPosts = async (req, res) => {
+    const totalPosts = await prisma.post.count()
+
+    return res.json({
+        status: 200,
+        totalPosts
+    })
+}

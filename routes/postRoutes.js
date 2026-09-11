@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPost, updatePost, fetchPosts, deletePost, bulkUpdate, bulkDelete, filterAndSortPosts } from "../Controller/PostController.js";
+import { createPost, updatePost, fetchPosts, deletePost, bulkUpdate, bulkDelete, filterAndSortPosts, countPosts } from "../Controller/PostController.js";
 
 const router = Router()
 
@@ -10,5 +10,6 @@ router.put("/:id", updatePost)
 router.delete("/bulk-delete", bulkDelete)
 router.delete("/:id", deletePost)
 router.get("/filter-sort", filterAndSortPosts)
+router.get("/totalPosts", countPosts)
 
 export default router
