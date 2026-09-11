@@ -33,7 +33,6 @@ export const createUser = async (req, res) => {
     })
 }
 
-
 // get all users
 export const fetchUsers = async (req, res) => {
     const users = await prisma.user.findMany({
@@ -47,7 +46,6 @@ export const fetchUsers = async (req, res) => {
         data: users
     })
 }
-
 
 // update user
 export const updateUser = async (req, res) => {
@@ -85,4 +83,25 @@ export const deleteUser = async (req, res) => {
         status: 200,
         msg: "user deleted successfully"
     })
+}
+
+// select specific fields
+export const selectUserFields = async (req, res) => {
+    const users = await prisma.user.findMany({
+    select: {
+        name: true,
+        email: true,
+        post: {
+            select: {
+                title: true,
+                content: true
+            }
+        }
+    }
+})
+return res.json({
+    status: 200,
+    data: users,
+    msg: "success"
+})
 }
