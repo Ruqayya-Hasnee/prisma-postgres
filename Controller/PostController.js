@@ -1,9 +1,9 @@
 import prisma from "../DB/db.config.js";
 
+//create post
 export const createPost = async (req, res) => {
     const { title, content, userId } = req.body
 
-    //create post
     const newPost = await prisma.post.create({
         data: {
             title: title,
@@ -22,7 +22,6 @@ export const createPost = async (req, res) => {
         msg: "post created successfully"
     })
 }
-
 
 // get all posts
 export const fetchPosts = async (req, res) => {
@@ -76,7 +75,6 @@ export const bulkDelete = async (req, res) => {
     })
 }
 
-
 //delete post
 export const deletePost = async (req, res) => {
     const postId = req.params.id
@@ -107,5 +105,25 @@ export const bulkUpdate = async (req, res) => {
         status: 200,
         data: updatedPosts,
         msg: "multiple posts updated successfully"
+    })
+}
+
+// filtering and sorting
+export const filterAndSortPosts = async (req, res) => {
+    const posts = await prisma.post.findMany({
+        where: {
+            title: {
+                contains: "Post"
+            }
+        },
+        orderBy: {
+            id: "desc"
+        }
+    })
+
+    return res.json({
+        status: 200,
+        data: posts,
+        msg: "filtered and sorted posts"
     })
 }
