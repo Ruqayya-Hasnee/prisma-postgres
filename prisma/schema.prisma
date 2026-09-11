@@ -20,6 +20,7 @@ model User {
   phone String?
   created_at DateTime @default(now())
   profile Profile?
+  post Post[]
 }
 
 model Profile {
@@ -33,5 +34,7 @@ model Post {
   id Int @id @default(autoincrement())
   title String
   content String
+  userId Int?
+  user User? @relation(fields: [userId], references: [id])
   created_at DateTime @default(now())
 }

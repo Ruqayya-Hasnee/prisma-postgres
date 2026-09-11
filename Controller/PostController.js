@@ -1,13 +1,18 @@
 import prisma from "../DB/db.config.js";
 
 export const createPost = async (req, res) => {
-    const { title, content } = req.body
+    const { title, content, userId } = req.body
 
     //create post
     const newPost = await prisma.post.create({
         data: {
             title: title,
             content: content,
+            user: {
+                connect: {
+                    id: Number(userId)
+                }
+            }
         }
     })
 
@@ -21,7 +26,11 @@ export const createPost = async (req, res) => {
 
 // get all posts
 export const fetchPosts = async (req, res) => {
-    const posts = await prisma.post.findMany({})
+    const posts = await prisma.post.findMany({
+        include: {
+            user: true
+        }
+    })
 
     return res.json({
         status: 200,

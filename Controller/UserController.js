@@ -1,5 +1,6 @@
 import prisma from "../DB/db.config.js";
 
+//create user
 export const createUser = async (req, res) => {
     const { name, email, password, phone } = req.body
 
@@ -16,7 +17,6 @@ export const createUser = async (req, res) => {
         })
     }
 
-    //create user
     const newUser = await prisma.user.create({
         data: {
             name: name,
@@ -36,7 +36,11 @@ export const createUser = async (req, res) => {
 
 // get all users
 export const fetchUsers = async (req, res) => {
-    const users = await prisma.user.findMany({})
+    const users = await prisma.user.findMany({
+        include: {
+            post: true
+        }
+    })
 
     return res.json({
         status: 200,
